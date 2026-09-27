@@ -1,8 +1,6 @@
 # 📚 LibraSphere
 ### Smart Library Management & Discovery System
 > **Tagline:** *Discover. Borrow. Track. Read.*  
-> **Course / Track:** Cloud Computing — Project 7  
-> **Architecture:** Cloud-Ready Stateless Client-Server with In-Memory State
 
 ---
 
