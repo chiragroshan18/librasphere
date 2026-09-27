@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test directories & test scripts
+tests/
+test/
+*.test.js
+*.spec.js
+test-*.js
+
+# Runtime logs & environment
+*.log
+.env
+.env.local
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

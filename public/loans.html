@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circulation & Loans — LibraSphere</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">📚</div>
+        <div class="brand-text">Libra<span>Sphere</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link"><span>📊</span> Dashboard</a></li>
+        <li><a href="catalog.html" class="nav-link"><span>📖</span> Catalog</a></li>
+        <li><a href="loans.html" class="nav-link active"><span>🔄</span> Circulation & Loans</a></li>
+        <li><a href="members.html" class="nav-link"><span>👥</span> Members</a></li>
+        <li><a href="analytics.html" class="nav-link"><span>📈</span> Analytics</a></li>
+        <li><a href="librarian.html" class="nav-link"><span>⚙️</span> Librarian Desk</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <span class="cloud-badge">
+          <span class="cloud-dot"></span> Cloud Ready
+        </span>
+        <button class="theme-toggle-btn" aria-label="Toggle Dark/Light Mode">🌙</button>
+        <button class="btn btn-primary btn-sm" id="btn-open-issue-loan">
+          <span>+</span> Issue Book
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="page-wrapper">
+
+    <header class="page-header animate-fadeInUp">
+      <div class="page-title-group">
+        <h1>Circulation Desk & Loan Management</h1>
+        <p>Monitor book checkouts, dynamic due dates, automatic overdue fine assessments, and returns.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-refresh-loans">
+          <span>🔄</span> Refresh Loans
+        </button>
+        <button class="btn btn-primary btn-sm" id="btn-open-issue-loan-header">
+          <span>+</span> Checkout Volume
+        </button>
+      </div>
+    </header>
+
+    <!-- Circulation KPI Mini-Grid -->
+    <section class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 1.5rem;">
+      <div class="stat-card animate-popCard stagger-1">
+        <div class="stat-icon-wrapper stat-icon-indigo">📖</div>
+        <div class="stat-info">
+          <div class="stat-label">Active Loans</div>
+          <div class="stat-value" id="kpi-active-loans">--</div>
+          <div class="stat-sub">In Reader Custody</div>
+        </div>
+      </div>
+
+      <div class="stat-card animate-popCard stagger-2">
+        <div class="stat-icon-wrapper stat-icon-amber">⏰</div>
+        <div class="stat-info">
+          <div class="stat-label">Due Soon</div>
+          <div class="stat-value" id="kpi-due-soon">--</div>
+          <div class="stat-sub">Due in &le; 3 Days</div>
+        </div>
+      </div>
+
+      <div class="stat-card animate-popCard stagger-3">
+        <div class="stat-icon-wrapper stat-icon-rose">⚠️</div>
+        <div class="stat-info">
+          <div class="stat-label">Overdue Volumes</div>
+          <div class="stat-value" id="kpi-overdue-loans">--</div>
+          <div class="stat-sub" id="kpi-fines-total">Fine: $0.00</div>
+        </div>
+      </div>
+
+      <div class="stat-card animate-popCard stagger-4">
+        <div class="stat-icon-wrapper stat-icon-emerald">✅</div>
+        <div class="stat-info">
+          <div class="stat-label">Returned</div>
+          <div class="stat-value" id="kpi-returned-loans">--</div>
+          <div class="stat-sub">Completed Lifecycles</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toolbar Filters -->
+    <section class="toolbar animate-fadeInUp">
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="loans-search-input" placeholder="Search by book title, borrower name, or loan ID...">
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-tabs" id="loan-status-tabs">
+          <button class="filter-tab active" data-status="all">All Loans</button>
+          <button class="filter-tab" data-status="active">Active</button>
+          <button class="filter-tab" data-status="due-soon">Due Soon</button>
+          <button class="filter-tab" data-status="overdue">Overdue</button>
+          <button class="filter-tab" data-status="returned">Returned</button>
+        </div>
+
+        <select id="loans-sort-select" class="filter-select">
+          <option value="status">Sort: Urgency Priority</option>
+          <option value="dueDate">Sort: Due Date (Earliest)</option>
+          <option value="fine">Sort: Fine Amount (Highest)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Results Status Counter -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+      <span id="loans-count-label" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+        Loading circulation records...
+      </span>
+      <span style="font-size: 0.8rem; color: var(--text-muted);">
+        Daily Fine Rate: <strong style="color: var(--danger);">$1.50/day</strong> overdue
+      </span>
+    </div>
+
+    <!-- Loans Table -->
+    <div class="card animate-fadeInUp">
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>Book Title & Category</th>
+              <th>Borrower</th>
+              <th>Checkout Date</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Overdue Days / Fine</th>
+              <th style="text-align: right;">Circulation Action</th>
+            </tr>
+          </thead>
+          <tbody id="loans-table-body">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       Issue Book Modal (Strict Flexbox Scroll Structure)
+       Pinned Header & Footer; Scrolling Body
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-issue-book">
+    <div class="modal-dialog">
+      <form id="form-issue-book">
+        <div class="modal-header">
+          <h3 class="modal-title"><span>📖</span> Issue Book to Patron</h3>
+          <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="issue-book-id">Select Book Volume <span class="req">*</span></label>
+            <select id="issue-book-id" class="form-control" required>
+              <option value="">-- Choose Book in Stock --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="issue-member-id">Select Member Patron <span class="req">*</span></label>
+            <select id="issue-member-id" class="form-control" required>
+              <option value="">-- Choose Member --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="issue-loan-days">Loan Duration (Days) <span class="req">*</span></label>
+            <input type="number" id="issue-loan-days" class="form-control" value="14" min="1" max="60" required>
+            <div class="form-hint">Standard loan is 14 days. Overdue fines apply at $1.50/day thereafter.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Calculated Return Due Date</label>
+            <div id="issue-due-date-preview" style="padding: 0.65rem 0.85rem; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: var(--radius-md); font-weight: 700; color: var(--primary);">
+              --
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-issue">
+            <span>✅</span> Confirm & Issue
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/loans.js"></script>
+</body>
+</html>

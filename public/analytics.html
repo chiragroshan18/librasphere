@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics & Visual Intelligence — LibraSphere</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">📚</div>
+        <div class="brand-text">Libra<span>Sphere</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link"><span>📊</span> Dashboard</a></li>
+        <li><a href="catalog.html" class="nav-link"><span>📖</span> Catalog</a></li>
+        <li><a href="loans.html" class="nav-link"><span>🔄</span> Circulation & Loans</a></li>
+        <li><a href="members.html" class="nav-link"><span>👥</span> Members</a></li>
+        <li><a href="analytics.html" class="nav-link active"><span>📈</span> Analytics</a></li>
+        <li><a href="librarian.html" class="nav-link"><span>⚙️</span> Librarian Desk</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <span class="cloud-badge">
+          <span class="cloud-dot"></span> Cloud Ready
+        </span>
+        <button class="theme-toggle-btn" aria-label="Toggle Dark/Light Mode">🌙</button>
+        <button class="btn btn-primary btn-sm" id="btn-print-analytics">
+          <span>🖨️</span> Print Report
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="page-wrapper">
+
+    <header class="page-header animate-fadeInUp">
+      <div class="page-title-group">
+        <h1>Library Intelligence & Visual Analytics</h1>
+        <p>Data-driven insights into catalog distribution, circulation trends, reader engagement, and overdue penalties.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-refresh-analytics">
+          <span>🔄</span> Recalculate Metrics
+        </button>
+      </div>
+    </header>
+
+    <!-- Top Analytical KPIs -->
+    <section class="stats-grid">
+      <div class="stat-card animate-popCard stagger-1">
+        <div class="stat-icon-wrapper stat-icon-indigo">📈</div>
+        <div class="stat-info">
+          <div class="stat-label">Circulation Velocity</div>
+          <div class="stat-value" id="analytic-utilization">--%</div>
+          <div class="stat-sub">Inventory Currently on Loan</div>
+        </div>
+      </div>
+
+      <div class="stat-card animate-popCard stagger-2">
+        <div class="stat-icon-wrapper stat-icon-emerald">🏆</div>
+        <div class="stat-info">
+          <div class="stat-label">Most Read Genre</div>
+          <div class="stat-value" id="analytic-top-category" style="font-size: 1.35rem; line-height: 1.3;">--</div>
+          <div class="stat-sub" id="analytic-top-category-count">Highest borrow demand</div>
+        </div>
+      </div>
+
+      <div class="stat-card animate-popCard stagger-3">
+        <div class="stat-icon-wrapper stat-icon-rose">💰</div>
+        <div class="stat-info">
+          <div class="stat-label">Active Overdue Fines</div>
+          <div class="stat-value" id="analytic-active-fines">$0.00</div>
+          <div class="stat-sub">Accruing at $1.50/day</div>
+        </div>
+      </div>
+
+      <div class="stat-card animate-popCard stagger-4">
+        <div class="stat-icon-wrapper stat-icon-purple">👥</div>
+        <div class="stat-info">
+          <div class="stat-label">Reader Retention</div>
+          <div class="stat-value" id="analytic-retention">--%</div>
+          <div class="stat-sub">Members with active history</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Row: Pure Vector SVG Donut Chart + Bar Graph -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+
+      <!-- SVG Donut Chart: Catalog Distribution -->
+      <section class="chart-card animate-fadeInUp stagger-1">
+        <div class="chart-header">
+          <div>
+            <h2 class="card-title"><span>🥧</span> Catalog Distribution by Category</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+              Proportion of physical volumes acquired across disciplines.
+            </p>
+          </div>
+          <span class="badge badge-scholar">Vector SVG</span>
+        </div>
+        <div class="chart-container" id="chart-category-donut">
+          <!-- Rendered by SVGCharts.renderDonutChart -->
+        </div>
+      </section>
+
+      <!-- SVG Bar Graph: Monthly Circulation Trend -->
+      <section class="chart-card animate-fadeInUp stagger-2">
+        <div class="chart-header">
+          <div>
+            <h2 class="card-title"><span>📊</span> Monthly Circulation & Borrowing Trends</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+              Volume checkout velocity across recent operational months.
+            </p>
+          </div>
+          <span class="badge badge-premium">Comparative Bars</span>
+        </div>
+        <div class="chart-container" id="chart-monthly-bars">
+          <!-- Rendered by SVGCharts.renderBarChart -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Circulation Status Breakdown + Leaderboards -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+
+      <!-- Top Borrowed Volumes -->
+      <section class="card animate-fadeInUp stagger-3">
+        <div class="card-header">
+          <h2 class="card-title"><span>🥇</span> Top 5 Most Borrowed Volumes</h2>
+          <span class="badge badge-active">Hall of Fame</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Rating</th>
+                  <th style="text-align: right;">Total Borrows</th>
+                </tr>
+              </thead>
+              <tbody id="top-books-body">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Top Active Readers -->
+      <section class="card animate-fadeInUp stagger-4">
+        <div class="card-header">
+          <h2 class="card-title"><span>🏅</span> Top 5 Most Active Readers</h2>
+          <span class="badge badge-scholar">Leaderboard</span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Reader</th>
+                  <th>Tier</th>
+                  <th>Department</th>
+                  <th style="text-align: right;">Books Read</th>
+                </tr>
+              </thead>
+              <tbody id="top-members-body">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/analytics.js"></script>
+</body>
+</html>
