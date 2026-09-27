@@ -12,13 +12,7 @@
 
 ---
 
-## ☁️ Cloud Architecture & Viva Justification
 
-> [!NOTE]
-> **Cloud-Ready vs. Cloud-Hosted Explanation:**  
-> LibraSphere does **not** claim to be deployed on an external cloud provider. Instead, it implements a **cloud-ready client-server architecture**. The browser communicates strictly with centralized Node.js REST services using HTTP/JSON via the Fetch API. The application state is maintained in-memory for this micro-project, meaning the backend can be containerized (Docker) and deployed to any cloud platform (AWS ECS, Google Cloud Run, Azure App Service) with the storage layer swapped for a managed cloud database (MongoDB Atlas, AWS DynamoDB, PostgreSQL) **without rewriting any frontend client code**.
-
----
 
 ## 🏛️ System Architecture
 
